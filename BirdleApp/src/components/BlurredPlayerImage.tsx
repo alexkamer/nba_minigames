@@ -12,10 +12,24 @@ const BlurredPlayerImage: React.FC<BlurredPlayerImageProps> = ({
   blurRadius,
   size = 250,
 }) => {
-  // Calculate image resolution based on blur radius (0-20)
-  // At blur=20: request 10px image (worst quality - extremely pixelated)
-  // At blur=0: request 500px image (best quality)
-  const imageResolution = Math.max(10, Math.floor(500 - (blurRadius / 20) * 490));
+  // Map blur radius to specific resolutions for each guess level
+  // Blur reduces by 3 per wrong guess: 20 → 17 → 14 → 11 → 8 → 5 → 2
+  let imageResolution;
+  if (blurRadius >= 18) {
+    imageResolution = 10;  // Start
+  } else if (blurRadius >= 15) {
+    imageResolution = 25;  // After 1 wrong guess
+  } else if (blurRadius >= 12) {
+    imageResolution = 50;  // After 2 wrong guesses
+  } else if (blurRadius >= 9) {
+    imageResolution = 100; // After 3 wrong guesses
+  } else if (blurRadius >= 6) {
+    imageResolution = 150; // After 4 wrong guesses
+  } else if (blurRadius >= 3) {
+    imageResolution = 255; // After 5 wrong guesses
+  } else {
+    imageResolution = 500; // Full quality (correct guess or game over)
+  }
 
   // Request image at specific resolution from ESPN CDN
   const headshotUrl = `https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/${playerId}.png&w=${imageResolution}&h=${imageResolution}`;
