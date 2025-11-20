@@ -13,9 +13,9 @@ const BlurredPlayerImage: React.FC<BlurredPlayerImageProps> = ({
   size = 250,
 }) => {
   // Calculate image resolution based on blur radius (0-20)
-  // At blur=20: request 20px image (worst quality)
+  // At blur=20: request 10px image (worst quality - extremely pixelated)
   // At blur=0: request 500px image (best quality)
-  const imageResolution = Math.max(20, Math.floor(500 - (blurRadius / 20) * 480));
+  const imageResolution = Math.max(10, Math.floor(500 - (blurRadius / 20) * 490));
 
   // Request image at specific resolution from ESPN CDN
   const headshotUrl = `https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/${playerId}.png&w=${imageResolution}&h=${imageResolution}`;
