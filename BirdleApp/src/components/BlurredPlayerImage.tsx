@@ -21,6 +21,9 @@ const BlurredPlayerImage: React.FC<BlurredPlayerImageProps> = ({
   const pixelationScale = Math.max(0.05, 1 - (blurRadius / 20) * 0.95);
   const scaleUpFactor = 1 / pixelationScale;
 
+  // Very minimal blur - pixelation is the primary effect
+  const minimalBlur = Math.min(blurRadius * 0.15, 3);
+
   return (
     <View style={[styles.container, { width: size, height: size, overflow: 'hidden' }]}>
       <View style={{
@@ -37,7 +40,7 @@ const BlurredPlayerImage: React.FC<BlurredPlayerImageProps> = ({
             height: size * pixelationScale,
             transform: [{ scale: scaleUpFactor }],
           }}
-          blurRadius={blurRadius * 0.3}
+          blurRadius={minimalBlur}
           resizeMode="contain"
         />
       </View>
