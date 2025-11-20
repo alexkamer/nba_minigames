@@ -33,7 +33,7 @@ interface PicturePerfectScreenProps {
 }
 
 const MAX_GUESSES = 6;
-const POINTS_BY_GUESS = [200, 100, 50, 25, 10, 0];
+const POINTS_BY_GUESS = [25, 15, 10, 5, 1, 0];
 const INITIAL_BLUR = 20;
 const BLUR_REDUCTION_PER_GUESS = 3;
 
@@ -50,7 +50,7 @@ const PicturePerfectScreen: React.FC<PicturePerfectScreenProps> = ({
   const [currentBlur, setCurrentBlur] = useState<number>(INITIAL_BLUR);
   const [gameOver, setGameOver] = useState(false);
   const [won, setWon] = useState(false);
-  const [points, setPoints] = useState<number>(200);
+  const [points, setPoints] = useState<number>(25);
   const [stats, setStats] = useState<PicturePerfectStats>({
     gamesPlayed: 0,
     gamesWon: 0,
@@ -249,7 +249,7 @@ const PicturePerfectScreen: React.FC<PicturePerfectScreenProps> = ({
     setCurrentBlur(INITIAL_BLUR);
     setGameOver(false);
     setWon(false);
-    setPoints(200);
+    setPoints(25);
     setRevealedHints([]);
     setHintTypes({
       team: false,

@@ -115,11 +115,11 @@ export const HowToPlayScreen: React.FC<HowToPlayScreenProps> = ({
           <Text style={styles.sectionTitle}>Scoring System</Text>
           <Text style={styles.paragraph}>
             Points are based on which guess you get correct:{'\n\n'}
-            • <Text style={styles.bold}>1st guess:</Text> 200 points{'\n'}
-            • <Text style={styles.bold}>2nd guess:</Text> 100 points{'\n'}
-            • <Text style={styles.bold}>3rd guess:</Text> 50 points{'\n'}
-            • <Text style={styles.bold}>4th guess:</Text> 25 points{'\n'}
-            • <Text style={styles.bold}>5th guess:</Text> 10 points{'\n'}
+            • <Text style={styles.bold}>1st guess:</Text> 25 points{'\n'}
+            • <Text style={styles.bold}>2nd guess:</Text> 15 points{'\n'}
+            • <Text style={styles.bold}>3rd guess:</Text> 10 points{'\n'}
+            • <Text style={styles.bold}>4th guess:</Text> 5 points{'\n'}
+            • <Text style={styles.bold}>5th guess:</Text> 1 point{'\n'}
             • <Text style={styles.bold}>6th guess:</Text> 0 points{'\n\n'}
             Challenge yourself to guess with as few hints and guesses as possible!
           </Text>
