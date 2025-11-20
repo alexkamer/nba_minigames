@@ -189,9 +189,9 @@ def get_daily_player(target_date: date) -> Dict:
 
     # Use date as seed for deterministic random selection
     seed = int(target_date.strftime("%Y%m%d"))
-    random.seed(seed)
+    rng = random.Random(seed)
 
-    return random.choice(players)
+    return rng.choice(players)
 
 
 def get_random_player() -> Dict:

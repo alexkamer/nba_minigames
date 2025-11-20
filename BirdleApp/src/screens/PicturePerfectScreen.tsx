@@ -16,6 +16,9 @@ import {
   hasPPPlayedToday,
   savePPDailyGameComplete,
   PicturePerfectStats,
+  getPPDailyStats,
+  getPPUnlimitedStats,
+  getPPDailyGameState,
 } from '../utils/storage';
 import { PlayerSearch } from '../components/PlayerSearch';
 import BlurredPlayerImage from '../components/BlurredPlayerImage';
@@ -78,27 +81,30 @@ const PicturePerfectScreen: React.FC<PicturePerfectScreenProps> = ({
   const initializeGame = async () => {
     setLoading(true);
     try {
-      // Check if already played today
+      // Check if this is a completed daily game
       if (isDaily) {
-        const played = await hasPPPlayedToday();
-        if (played) {
-          Alert.alert(
-            'Already Played',
-            "You've already played today's Picture Perfect! Come back tomorrow for a new challenge.",
-            [
-              {
-                text: 'Play Unlimited',
-                onPress: () => navigation.push('/pictureperfect?isDaily=false'),
-              },
-              { text: 'Go Back', onPress: () => navigation.back() },
-            ]
-          );
+        const savedGameState = await getPPDailyGameState();
+        if (savedGameState) {
+          // Load the completed game
+          setMysteryPlayerId(savedGameState.playerId);
+          setGuesses(savedGameState.guesses || []);
+          setCurrentBlur(0); // Fully revealed
+          setGameOver(true);
+          setWon(savedGameState.won);
+          setPoints(savedGameState.points);
+          setMysteryPlayerName(savedGameState.playerName);
+          setRevealedHints(savedGameState.revealedHints || []);
+          setShowResults(true);
+
+          // Load stats
+          const loadedStats = isDaily ? await getPPDailyStats() : await getPPUnlimitedStats();
+          setStats(loadedStats);
           setLoading(false);
           return;
         }
       }
 
-      // Get mystery player
+      // Get mystery player for new game
       const playerId = isDaily
         ? await getDailyPlayer()
         : await getRandomPlayer();
@@ -106,7 +112,7 @@ const PicturePerfectScreen: React.FC<PicturePerfectScreenProps> = ({
       setMysteryPlayerId(playerId);
 
       // Load stats
-      const loadedStats = await getPPStats();
+      const loadedStats = isDaily ? await getPPDailyStats() : await getPPUnlimitedStats();
       setStats(loadedStats);
 
       setLoading(false);
@@ -192,14 +198,22 @@ const PicturePerfectScreen: React.FC<PicturePerfectScreenProps> = ({
     setPoints(finalPoints);
 
     // Update stats
-    await updatePPStatsAfterGame(true, finalPoints, guessCount);
+    await updatePPStatsAfterGame(true, finalPoints, guessCount, isDaily);
 
     if (isDaily) {
-      await savePPDailyGameComplete();
+      await savePPDailyGameComplete({
+        playerId: mysteryPlayerId,
+        guesses: guesses,
+        guessCount,
+        won: true,
+        points: finalPoints,
+        playerName,
+        revealedHints,
+      });
     }
 
     // Reload stats
-    const updatedStats = await getPPStats();
+    const updatedStats = isDaily ? await getPPDailyStats() : await getPPUnlimitedStats();
     setStats(updatedStats);
 
     // Show results after a brief delay
@@ -219,14 +233,22 @@ const PicturePerfectScreen: React.FC<PicturePerfectScreenProps> = ({
       setMysteryPlayerName(player.display_name);
 
       // Update stats
-      await updatePPStatsAfterGame(false, 0, MAX_GUESSES);
+      await updatePPStatsAfterGame(false, 0, MAX_GUESSES, isDaily);
 
       if (isDaily) {
-        await savePPDailyGameComplete();
+        await savePPDailyGameComplete({
+          playerId: mysteryPlayerId,
+          guesses: guesses,
+          guessCount: MAX_GUESSES,
+          won: false,
+          points: 0,
+          playerName: player.display_name,
+          revealedHints,
+        });
       }
 
       // Reload stats
-      const updatedStats = await getPPStats();
+      const updatedStats = isDaily ? await getPPDailyStats() : await getPPUnlimitedStats();
       setStats(updatedStats);
 
       // Show results after a brief delay
@@ -301,7 +323,7 @@ const PicturePerfectScreen: React.FC<PicturePerfectScreenProps> = ({
           <View style={styles.scoreItem}>
             <Text style={styles.scoreLabel}>Guesses</Text>
             <Text style={styles.scoreValue}>
-              {guesses.length}/{MAX_GUESSES}
+              {gameOver ? guesses.length : Math.min(guesses.length + 1, MAX_GUESSES)}/{MAX_GUESSES}
             </Text>
           </View>
           <View style={styles.scoreItem}>
