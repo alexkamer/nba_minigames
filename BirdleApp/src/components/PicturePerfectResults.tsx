@@ -68,6 +68,10 @@ export const PicturePerfectResults: React.FC<PicturePerfectResultsProps> = ({
     >
       <View style={styles.overlay}>
         <View style={styles.modal}>
+          <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+            <Text style={styles.closeButtonText}>✕</Text>
+          </TouchableOpacity>
+
           <Text style={styles.title}>
             {won ? '🎉 Perfect!' : '😔 Game Over'}
           </Text>
@@ -187,6 +191,24 @@ const styles = StyleSheet.create({
     padding: 24,
     width: '85%',
     maxWidth: 400,
+    position: 'relative',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 16,
+    right: 16,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10,
+  },
+  closeButtonText: {
+    color: Colors.text,
+    fontSize: 20,
+    fontWeight: 'bold',
   },
   title: {
     fontSize: 28,

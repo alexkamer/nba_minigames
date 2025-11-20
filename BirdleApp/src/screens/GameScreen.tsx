@@ -17,6 +17,9 @@ import {
   getStats,
   updateStatsAfterGame,
   saveDailyGameComplete,
+  getDailyStats,
+  getUnlimitedStats,
+  getDailyGameState,
 } from '../utils/storage';
 
 interface GameScreenProps {
@@ -45,7 +48,26 @@ export const GameScreen: React.FC<GameScreenProps> = ({ route, navigation }) => 
     try {
       setLoading(true);
 
-      // Get mystery player
+      // Check if this is a completed daily game
+      if (isDaily) {
+        const savedGameState = await getDailyGameState();
+        if (savedGameState) {
+          // Load the completed game
+          setMysteryPlayerId(savedGameState.playerId);
+          setGuesses(savedGameState.guesses);
+          setGameOver(true);
+          setWon(savedGameState.won);
+          setShowResults(true);
+
+          // Load stats
+          const currentStats = isDaily ? await getDailyStats() : await getUnlimitedStats();
+          setStats(currentStats);
+          setLoading(false);
+          return;
+        }
+      }
+
+      // Get mystery player for new game
       const playerId = isDaily
         ? await getDailyPlayer()
         : await getRandomPlayer();
@@ -53,7 +75,7 @@ export const GameScreen: React.FC<GameScreenProps> = ({ route, navigation }) => 
       setMysteryPlayerId(playerId);
 
       // Load stats
-      const currentStats = await getStats();
+      const currentStats = isDaily ? await getDailyStats() : await getUnlimitedStats();
       setStats(currentStats);
     } catch (error) {
       console.error('Error initializing game:', error);
@@ -76,28 +98,36 @@ export const GameScreen: React.FC<GameScreenProps> = ({ route, navigation }) => 
         // Won the game
         setWon(true);
         setGameOver(true);
-        await updateStatsAfterGame(true, newGuesses.length);
+        await updateStatsAfterGame(true, newGuesses.length, isDaily);
 
         if (isDaily) {
-          await saveDailyGameComplete();
+          await saveDailyGameComplete({
+            playerId: mysteryPlayerId,
+            guesses: newGuesses,
+            won: true,
+          });
         }
 
         // Update stats and show results
-        const updatedStats = await getStats();
+        const updatedStats = isDaily ? await getDailyStats() : await getUnlimitedStats();
         setStats(updatedStats);
         setShowResults(true);
       } else if (newGuesses.length >= MAX_GUESSES) {
         // Lost the game
         setWon(false);
         setGameOver(true);
-        await updateStatsAfterGame(false, MAX_GUESSES);
+        await updateStatsAfterGame(false, MAX_GUESSES, isDaily);
 
         if (isDaily) {
-          await saveDailyGameComplete();
+          await saveDailyGameComplete({
+            playerId: mysteryPlayerId,
+            guesses: newGuesses,
+            won: false,
+          });
         }
 
         // Update stats and show results
-        const updatedStats = await getStats();
+        const updatedStats = isDaily ? await getDailyStats() : await getUnlimitedStats();
         setStats(updatedStats);
         setShowResults(true);
       }
@@ -133,7 +163,7 @@ export const GameScreen: React.FC<GameScreenProps> = ({ route, navigation }) => 
           {isDaily ? 'Daily Birdle' : 'Unlimited Birdle'}
         </Text>
         <Text style={styles.guessCount}>
-          {guesses.length} / {MAX_GUESSES}
+          {gameOver ? guesses.length : Math.min(guesses.length + 1, MAX_GUESSES)} / {MAX_GUESSES}
         </Text>
       </View>
 
