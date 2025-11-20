@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   Alert,
+  Image,
 } from 'react-native';
 import { Colors } from '../constants/colors';
 import { GuessGrid } from '../components/GuessGrid';
@@ -123,6 +124,8 @@ export const GameScreen: React.FC<GameScreenProps> = ({ route, navigation }) => 
     );
   }
 
+  const headshotUrl = `https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/${mysteryPlayerId}.png`;
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -132,6 +135,15 @@ export const GameScreen: React.FC<GameScreenProps> = ({ route, navigation }) => 
         <Text style={styles.guessCount}>
           {guesses.length} / {MAX_GUESSES}
         </Text>
+      </View>
+
+      {/* Mystery Player Silhouette */}
+      <View style={styles.silhouetteContainer}>
+        <Image
+          source={{ uri: headshotUrl }}
+          style={[styles.silhouetteImage, { tintColor: '#000000' }]}
+          resizeMode="contain"
+        />
       </View>
 
       <PlayerSearch
@@ -193,5 +205,20 @@ const styles = StyleSheet.create({
   guessCount: {
     fontSize: 18,
     color: Colors.textSecondary,
+  },
+  silhouetteContainer: {
+    alignSelf: 'center',
+    marginBottom: 16,
+    height: 200,
+    width: 180,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 8,
+    padding: 16,
+  },
+  silhouetteImage: {
+    width: 150,
+    height: 200,
   },
 });
