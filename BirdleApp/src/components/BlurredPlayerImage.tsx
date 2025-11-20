@@ -15,24 +15,24 @@ const BlurredPlayerImage: React.FC<BlurredPlayerImageProps> = ({
   const headshotUrl = `https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/${playerId}.png`;
 
   // Calculate pixelation amount based on blur radius (0-20)
-  // Higher blur = more pixelation (smaller scale)
-  const pixelationScale = Math.max(0.1, 1 - (blurRadius / 20) * 0.8);
+  // Higher blur = more pixelation (much smaller scale for extreme pixelation)
+  // At blur=20: scale=0.05 (5% size = heavily pixelated)
+  // At blur=0: scale=1.0 (100% size = clear)
+  const pixelationScale = Math.max(0.05, 1 - (blurRadius / 20) * 0.95);
 
   return (
-    <View style={[styles.container, { width: size, height: size }]}>
-      <Image
-        source={{ uri: headshotUrl }}
-        style={[
-          styles.image,
-          {
+    <View style={[styles.container, { width: size, height: size, overflow: 'hidden' }]}>
+      <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}>
+        <Image
+          source={{ uri: headshotUrl }}
+          style={{
             width: size * pixelationScale,
             height: size * pixelationScale,
-            transform: [{ scale: 1 / pixelationScale }],
-          },
-        ]}
-        blurRadius={blurRadius / 2}
-        resizeMode="contain"
-      />
+          }}
+          blurRadius={blurRadius * 0.3}
+          resizeMode="stretch"
+        />
+      </View>
     </View>
   );
 };
