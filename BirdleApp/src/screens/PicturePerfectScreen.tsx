@@ -313,6 +313,16 @@ const PicturePerfectScreen: React.FC<PicturePerfectScreenProps> = ({
           </View>
         </View>
 
+        {/* Player Search */}
+        {!gameOver && (
+          <View style={styles.searchContainer}>
+            <Text style={styles.searchLabel}>
+              Guess the Player ({remainingGuesses} {remainingGuesses === 1 ? 'guess' : 'guesses'} left):
+            </Text>
+            <PlayerSearch onSelectPlayer={handleGuess} disabled={gameOver} />
+          </View>
+        )}
+
         {/* Blurred Player Image */}
         <View style={styles.imageContainer}>
           {mysteryPlayerId && (
@@ -370,16 +380,6 @@ const PicturePerfectScreen: React.FC<PicturePerfectScreenProps> = ({
                 <Text style={styles.guessText}>{guess}</Text>
               </View>
             ))}
-          </View>
-        )}
-
-        {/* Player Search */}
-        {!gameOver && (
-          <View style={styles.searchContainer}>
-            <Text style={styles.searchLabel}>
-              Guess the Player ({remainingGuesses} {remainingGuesses === 1 ? 'guess' : 'guesses'} left):
-            </Text>
-            <PlayerSearch onSelectPlayer={handleGuess} disabled={gameOver} />
           </View>
         )}
       </ScrollView>
