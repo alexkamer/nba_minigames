@@ -183,9 +183,6 @@ def get_picture_perfect_hint(hint_request: models.HintRequest):
     elif hint_type == "position":
         hint_value = player["position"]
         hint_display = f"Position: {player['position']}"
-    elif hint_type == "conference":
-        hint_value = player["conference_name"]
-        hint_display = f"Conference: {player['conference_name']}"
     elif hint_type == "jersey":
         hint_value = str(player["jersey"])
         hint_display = f"Jersey #: {player['jersey']}"

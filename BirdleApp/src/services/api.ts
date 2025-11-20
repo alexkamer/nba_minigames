@@ -46,7 +46,7 @@ export interface HintResponse {
 
 export const getHint = async (
   playerId: string,
-  hintType: 'team' | 'position' | 'conference' | 'jersey'
+  hintType: 'team' | 'position' | 'jersey'
 ): Promise<HintResponse> => {
   const response = await api.post('/api/picture-perfect/get-hint', {
     player_id: playerId,

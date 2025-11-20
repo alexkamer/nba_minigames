@@ -104,11 +104,11 @@ export const HowToPlayScreen: React.FC<HowToPlayScreenProps> = ({
 
           <Text style={styles.sectionTitle}>How Picture Perfect Works</Text>
           <Text style={styles.paragraph}>
-            • A blurred photo of an NBA player is shown{'\n'}
+            • A low-resolution photo of an NBA player is shown{'\n'}
             • You have 6 guesses to identify the player{'\n'}
-            • Each wrong guess slightly reduces the blur{'\n'}
-            • Use hint buttons to reveal clues (Team, Position, Conference, Jersey #){'\n'}
-            • Using hints also reduces the blur slightly{'\n'}
+            • Each wrong guess improves the image resolution{'\n'}
+            • Use hint buttons to reveal clues (Team, Position, Jersey #){'\n'}
+            • Using hints also improves the resolution slightly{'\n'}
             • Points are awarded based on how quickly you guess correctly
           </Text>
 

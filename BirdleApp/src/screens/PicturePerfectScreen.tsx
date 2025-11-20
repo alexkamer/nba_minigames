@@ -64,12 +64,10 @@ const PicturePerfectScreen: React.FC<PicturePerfectScreenProps> = ({
   const [hintTypes, setHintTypes] = useState<{
     team: boolean;
     position: boolean;
-    conference: boolean;
     jersey: boolean;
   }>({
     team: false,
     position: false,
-    conference: false,
     jersey: false,
   });
 
@@ -159,7 +157,7 @@ const PicturePerfectScreen: React.FC<PicturePerfectScreenProps> = ({
     }
   };
 
-  const handleGetHint = async (hintType: 'team' | 'position' | 'conference' | 'jersey') => {
+  const handleGetHint = async (hintType: 'team' | 'position' | 'jersey') => {
     if (hintTypes[hintType] || gameOver) return;
 
     try {
@@ -254,7 +252,6 @@ const PicturePerfectScreen: React.FC<PicturePerfectScreenProps> = ({
     setHintTypes({
       team: false,
       position: false,
-      conference: false,
       jersey: false,
     });
     setShowResults(false);
@@ -353,12 +350,6 @@ const PicturePerfectScreen: React.FC<PicturePerfectScreenProps> = ({
                 onPress={() => handleGetHint('position')}
                 disabled={hintTypes.position}
                 revealed={hintTypes.position}
-              />
-              <HintButton
-                label="Conference"
-                onPress={() => handleGetHint('conference')}
-                disabled={hintTypes.conference}
-                revealed={hintTypes.conference}
               />
               <HintButton
                 label="Jersey #"

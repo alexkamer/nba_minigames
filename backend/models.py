@@ -71,7 +71,7 @@ class SearchResponse(BaseModel):
 class HintRequest(BaseModel):
     """Request to get a hint for Picture Perfect game."""
     player_id: str
-    hint_type: Literal["team", "position", "conference", "jersey"]
+    hint_type: Literal["team", "position", "jersey"]
 
 
 class HintResponse(BaseModel):
