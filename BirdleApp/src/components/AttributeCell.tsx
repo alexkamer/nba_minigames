@@ -12,9 +12,9 @@ export const AttributeCell: React.FC<AttributeCellProps> = ({
   label,
   comparison,
 }) => {
-  // Debug: Log team comparison data
-  if (label === 'Team' && comparison) {
-    console.log('Team comparison:', JSON.stringify(comparison, null, 2));
+  // Debug: Log numeric comparison data
+  if (comparison && (label === 'Height' || label === 'Age' || label === '#' || label === 'Exp')) {
+    console.log(`${label} comparison:`, JSON.stringify(comparison, null, 2));
   }
 
   const getBackgroundColor = () => {
@@ -23,14 +23,11 @@ export const AttributeCell: React.FC<AttributeCellProps> = ({
     switch (comparison.match) {
       case 'exact':
         return Colors.exact;
-      case 'partial':
-        return Colors.partial;
       case 'close':
         return Colors.close;
       case 'higher':
-        return Colors.higher;
       case 'lower':
-        return Colors.lower;
+        return Colors.wrong;
       default:
         return Colors.wrong;
     }
@@ -38,25 +35,30 @@ export const AttributeCell: React.FC<AttributeCellProps> = ({
 
   const getDisplayValue = () => {
     if (!comparison) return '';
+    return comparison.value.toString();
+  };
 
-    const value = comparison.value.toString();
+  const getLabel = () => {
+    if (!comparison) return label;
 
-    // Add arrows for directional hints
+    // Add arrows for directional hints on numeric values
     if (comparison.match === 'higher') {
-      return `${value} ↓`;
+      return `${label} ↓`;
     }
     if (comparison.match === 'lower') {
-      return `${value} ↑`;
+      return `${label} ↑`;
     }
 
-    return value;
+    return label;
   };
 
   // If there's a logo with a valid URL, show it instead of text
   if (comparison?.logo && comparison.logo.trim() !== '') {
     return (
       <View style={[styles.cell, { backgroundColor: getBackgroundColor() }]}>
-        <Text style={styles.label}>{label}</Text>
+        <Text style={styles.label} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.6}>
+          {getLabel()}
+        </Text>
         <Image
           source={{ uri: comparison.logo }}
           style={styles.logo}
@@ -68,7 +70,9 @@ export const AttributeCell: React.FC<AttributeCellProps> = ({
 
   return (
     <View style={[styles.cell, { backgroundColor: getBackgroundColor() }]}>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={styles.label} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.6}>
+        {getLabel()}
+      </Text>
       <Text style={styles.value} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.7}>
         {getDisplayValue()}
       </Text>
@@ -90,6 +94,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: Colors.text,
     marginBottom: 2,
+    textAlign: 'center',
   },
   value: {
     fontSize: 14,

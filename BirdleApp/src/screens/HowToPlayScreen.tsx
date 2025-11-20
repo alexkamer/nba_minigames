@@ -33,6 +33,7 @@ export const HowToPlayScreen: React.FC<HowToPlayScreenProps> = ({
 
           <Text style={styles.sectionTitle}>How It Works</Text>
           <Text style={styles.paragraph}>
+            • A silhouette of the mystery player is shown at the top for a visual hint{'\n'}
             • Each guess must be a valid active NBA player{'\n'}
             • After each guess, the color of the tiles will change to show how
             close your guess was{'\n'}
@@ -54,33 +55,12 @@ export const HowToPlayScreen: React.FC<HowToPlayScreenProps> = ({
 
           <View style={styles.exampleRow}>
             <View
-              style={[styles.exampleCell, { backgroundColor: Colors.partial }]}
+              style={[styles.exampleCell, { backgroundColor: Colors.close }]}
             >
-              <Text style={styles.cellText}>BOS</Text>
+              <Text style={styles.cellText}>28</Text>
             </View>
             <Text style={styles.exampleText}>
-              <Text style={styles.bold}>Yellow</Text> means partial match. The
-              team is wrong, but the conference or division is correct.
-            </Text>
-          </View>
-
-          <View style={styles.exampleRow}>
-            <View style={[styles.exampleCell, { backgroundColor: Colors.higher }]}>
-              <Text style={styles.cellText}>30 ↓</Text>
-            </View>
-            <Text style={styles.exampleText}>
-              <Text style={styles.bold}>Red with ↓</Text> means your guess is
-              higher. The mystery player has a lower value.
-            </Text>
-          </View>
-
-          <View style={styles.exampleRow}>
-            <View style={[styles.exampleCell, { backgroundColor: Colors.lower }]}>
-              <Text style={styles.cellText}>25 ↑</Text>
-            </View>
-            <Text style={styles.exampleText}>
-              <Text style={styles.bold}>Blue with ↑</Text> means your guess is
-              lower. The mystery player has a higher value.
+              <Text style={styles.bold}>Yellow</Text> means close match. For numeric values (height, age, jersey, experience), this means within 2 of the correct value. For division, it means same conference but different division.
             </Text>
           </View>
 
@@ -96,16 +76,15 @@ export const HowToPlayScreen: React.FC<HowToPlayScreenProps> = ({
 
           <Text style={styles.sectionTitle}>Attributes</Text>
           <Text style={styles.paragraph}>
-            • <Text style={styles.bold}>Team:</Text> Player's current team (shown as logo){'\n'}
-            • <Text style={styles.bold}>Position:</Text> G (Guard), F (Forward),
-            or C (Center){'\n'}
+            • <Text style={styles.bold}>Team:</Text> Player's current team (shown as team logo){'\n'}
+            • <Text style={styles.bold}>Position:</Text> G (Guard), F (Forward), or C (Center){'\n'}
             • <Text style={styles.bold}>Height:</Text> Player's height (e.g., 6'7"){'\n'}
             • <Text style={styles.bold}>Age:</Text> Player's age{'\n'}
             • <Text style={styles.bold}>#:</Text> Jersey number{'\n'}
-            • <Text style={styles.bold}>Div:</Text> Division (Yellow if same conference){'\n'}
+            • <Text style={styles.bold}>Div:</Text> Division (Yellow if same conference but different division){'\n'}
             • <Text style={styles.bold}>Exp:</Text> Years of NBA experience
             {'\n\n'}
-            <Text style={styles.bold}>Note:</Text> For Height, Age, Jersey #, and Experience - Yellow means within 2 of the correct value!
+            <Text style={styles.bold}>Note:</Text> For Height, Age, Jersey #, and Experience - Yellow means within 2 of the correct value! Team only shows green (correct) or gray (wrong).
           </Text>
 
           <Text style={styles.sectionTitle}>Game Modes</Text>

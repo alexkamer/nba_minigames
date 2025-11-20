@@ -73,24 +73,30 @@ def compare_numeric_with_close(guess_value: int, mystery_value: int, display_val
     Returns:
     - exact: Same value (green)
     - close: Within 2 of the correct value (yellow)
-    - wrong: More than 2 away (gray)
+    - higher: Guess is higher than mystery (gray with ↓)
+    - lower: Guess is lower than mystery (gray with ↑)
     """
-    diff = abs(guess_value - mystery_value)
+    diff = guess_value - mystery_value
 
     if diff == 0:
         return {
             "value": display_value,
             "match": "exact",
         }
-    elif diff <= 2:
+    elif abs(diff) <= 2:
         return {
             "value": display_value,
             "match": "close",
         }
+    elif diff > 0:
+        return {
+            "value": display_value,
+            "match": "higher",
+        }
     else:
         return {
             "value": display_value,
-            "match": "wrong",
+            "match": "lower",
         }
 
 
