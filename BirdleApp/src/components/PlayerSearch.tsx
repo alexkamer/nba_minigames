@@ -26,7 +26,7 @@ export const PlayerSearch: React.FC<PlayerSearchProps> = ({
 
   useEffect(() => {
     const search = async () => {
-      if (query.length < 2) {
+      if (query.length < 1) {
         setResults([]);
         return;
       }
@@ -40,7 +40,7 @@ export const PlayerSearch: React.FC<PlayerSearchProps> = ({
       }
     };
 
-    const timeoutId = setTimeout(search, 300);
+    const timeoutId = setTimeout(search, 100);
     return () => clearTimeout(timeoutId);
   }, [query]);
 

@@ -180,12 +180,18 @@ def main():
     try:
         conn.execute("DELETE FROM active_rosters")
         conn.commit()
-        
+
         if not rosters_df.empty:
             rosters_df.to_sql('active_rosters', conn, if_exists='append', index=False)
-        
+
         teams_df.to_sql('active_teams', conn, if_exists='replace', index=False)
         standings_df.to_sql('standings', conn, if_exists='replace', index=False)
+
+        # Create indexes for faster search queries
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_display_name ON active_rosters(display_name)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_last_name ON active_rosters(last_name)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_athlete_status ON active_rosters(athlete_status)")
+        conn.commit()
     finally:
         conn.close()
 

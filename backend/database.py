@@ -152,7 +152,9 @@ def search_players(query: str, limit: int = 10) -> List[Dict]:
     conn.row_factory = dict_factory
     cursor = conn.cursor()
 
-    search_query = f"%{query}%"
+    # Optimize search: prioritize matches at start of name
+    search_start = f"{query}%"
+    search_anywhere = f"%{query}%"
 
     sql = """
     SELECT
@@ -160,16 +162,21 @@ def search_players(query: str, limit: int = 10) -> List[Dict]:
         ar.display_name,
         ar.full_name,
         at.team_abbreviation,
-        ar.position
+        ar.position,
+        CASE
+            WHEN ar.display_name LIKE ? THEN 1
+            WHEN ar.last_name LIKE ? THEN 2
+            ELSE 3
+        END as priority
     FROM active_rosters ar
     JOIN active_teams at ON ar.team_id = at.team_id
-    WHERE (ar.display_name LIKE ? OR ar.full_name LIKE ?)
+    WHERE (ar.display_name LIKE ? OR ar.full_name LIKE ? OR ar.last_name LIKE ?)
     AND ar.athlete_status = 'active'
-    ORDER BY ar.last_name, ar.first_name
+    ORDER BY priority, ar.last_name, ar.first_name
     LIMIT ?
     """
 
-    cursor.execute(sql, (search_query, search_query, limit))
+    cursor.execute(sql, (search_start, search_start, search_anywhere, search_anywhere, search_start, limit))
     players = cursor.fetchall()
     conn.close()
 
