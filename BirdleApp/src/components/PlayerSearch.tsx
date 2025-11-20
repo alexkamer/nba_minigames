@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   TextInput,
-  FlatList,
+  ScrollView,
   TouchableOpacity,
   Text,
   StyleSheet,
@@ -67,11 +67,14 @@ export const PlayerSearch: React.FC<PlayerSearchProps> = ({
 
       {showResults && results.length > 0 && (
         <View style={styles.resultsContainer}>
-          <FlatList
-            data={results}
-            keyExtractor={(item) => item.espn_player_id}
-            renderItem={({ item }) => (
+          <ScrollView
+            style={styles.resultsList}
+            keyboardShouldPersistTaps="handled"
+            nestedScrollEnabled
+          >
+            {results.map((item) => (
               <TouchableOpacity
+                key={item.espn_player_id}
                 style={styles.resultItem}
                 onPress={() => handleSelectPlayer(item)}
               >
@@ -80,10 +83,8 @@ export const PlayerSearch: React.FC<PlayerSearchProps> = ({
                   {item.team_abbreviation} • {item.position}
                 </Text>
               </TouchableOpacity>
-            )}
-            style={styles.resultsList}
-            keyboardShouldPersistTaps="handled"
-          />
+            ))}
+          </ScrollView>
         </View>
       )}
     </View>
