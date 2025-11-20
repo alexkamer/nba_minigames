@@ -20,15 +20,11 @@ const BlurredPlayerImage: React.FC<BlurredPlayerImageProps> = ({
   // Request image at specific resolution from ESPN CDN
   const headshotUrl = `https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/${playerId}.png&w=${imageResolution}&h=${imageResolution}`;
 
-  // Very minimal blur to slightly soften the pixels
-  const minimalBlur = Math.min(blurRadius * 0.1, 2);
-
   return (
     <View style={[styles.container, { width: size, height: size }]}>
       <Image
         source={{ uri: headshotUrl }}
         style={[styles.image, { width: size, height: size }]}
-        blurRadius={minimalBlur}
         resizeMode="contain"
       />
     </View>
