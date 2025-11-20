@@ -66,3 +66,16 @@ class DailyPlayerResponse(BaseModel):
 class SearchResponse(BaseModel):
     """Response for player search."""
     players: List[PlayerBasic]
+
+
+class HintRequest(BaseModel):
+    """Request to get a hint for Picture Perfect game."""
+    player_id: str
+    hint_type: Literal["team", "position", "jersey"]
+
+
+class HintResponse(BaseModel):
+    """Response with a hint about the mystery player."""
+    hint_type: str
+    hint_value: str
+    hint_display: str

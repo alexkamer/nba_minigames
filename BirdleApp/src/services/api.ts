@@ -37,3 +37,25 @@ export const validateGuess = async (
   });
   return response.data;
 };
+
+export interface HintResponse {
+  hint_type: string;
+  hint_value: string;
+  hint_display: string;
+}
+
+export const getHint = async (
+  playerId: string,
+  hintType: 'team' | 'position' | 'jersey'
+): Promise<HintResponse> => {
+  const response = await api.post('/api/picture-perfect/get-hint', {
+    player_id: playerId,
+    hint_type: hintType,
+  });
+  return response.data;
+};
+
+export const getPlayerById = async (playerId: string): Promise<any> => {
+  const response = await api.get(`/api/player/${playerId}`);
+  return response.data;
+};

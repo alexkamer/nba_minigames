@@ -158,6 +158,44 @@ def get_all_players():
     return [models.PlayerFull(**player) for player in players]
 
 
+@app.post("/api/picture-perfect/get-hint", response_model=models.HintResponse)
+def get_picture_perfect_hint(hint_request: models.HintRequest):
+    """
+    Get a hint for Picture Perfect game.
+
+    Args:
+        hint_request: Contains player_id and hint_type
+
+    Returns:
+        Hint information based on requested type
+    """
+    # Get the mystery player
+    player = database.get_player_by_id(hint_request.player_id)
+    if not player:
+        raise HTTPException(status_code=404, detail="Player not found")
+
+    # Generate hint based on type
+    hint_type = hint_request.hint_type
+
+    if hint_type == "team":
+        hint_value = player["team_abbreviation"]
+        hint_display = f"Team: {player['team_name']}"
+    elif hint_type == "position":
+        hint_value = player["position"]
+        hint_display = f"Position: {player['position']}"
+    elif hint_type == "jersey":
+        hint_value = str(player["jersey"])
+        hint_display = f"Jersey #: {player['jersey']}"
+    else:
+        raise HTTPException(status_code=400, detail="Invalid hint type")
+
+    return models.HintResponse(
+        hint_type=hint_type,
+        hint_value=hint_value,
+        hint_display=hint_display
+    )
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8050)
