@@ -130,7 +130,7 @@ export const GameScreen: React.FC<GameScreenProps> = ({ route, navigation }) => 
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>
-          {isDaily ? 'Daily Challenge' : 'Practice Mode'}
+          {isDaily ? 'Daily Birdle' : 'Unlimited Birdle'}
         </Text>
         <Text style={styles.guessCount}>
           {guesses.length} / {MAX_GUESSES}

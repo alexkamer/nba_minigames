@@ -42,7 +42,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             disabled={dailyCompleted}
           >
             <Text style={styles.buttonText}>
-              {dailyCompleted ? 'Daily Completed ✓' : 'Daily Challenge'}
+              {dailyCompleted ? 'Daily Completed ✓' : 'Daily Birdle'}
             </Text>
             {!dailyCompleted && (
               <Text style={styles.buttonSubtext}>One puzzle per day</Text>
@@ -53,7 +53,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             style={[styles.button, styles.secondaryButton]}
             onPress={() => navigation.push('/game?isDaily=false')}
           >
-            <Text style={styles.buttonText}>Practice Mode</Text>
+            <Text style={styles.buttonText}>Unlimited Birdle</Text>
             <Text style={styles.buttonSubtext}>Unlimited games</Text>
           </TouchableOpacity>
 

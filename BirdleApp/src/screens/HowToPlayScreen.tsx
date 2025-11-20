@@ -89,9 +89,9 @@ export const HowToPlayScreen: React.FC<HowToPlayScreenProps> = ({
 
           <Text style={styles.sectionTitle}>Game Modes</Text>
           <Text style={styles.paragraph}>
-            • <Text style={styles.bold}>Daily Challenge:</Text> One mystery
+            • <Text style={styles.bold}>Daily Birdle:</Text> One mystery
             player per day, same for everyone{'\n'}
-            • <Text style={styles.bold}>Practice Mode:</Text> Unlimited games
+            • <Text style={styles.bold}>Unlimited Birdle:</Text> Unlimited games
             with random players
           </Text>
         </View>
