@@ -54,3 +54,8 @@ export const getHint = async (
   });
   return response.data;
 };
+
+export const getPlayerById = async (playerId: string): Promise<any> => {
+  const response = await api.get(`/api/player/${playerId}`);
+  return response.data;
+};

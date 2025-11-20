@@ -9,7 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import { Colors } from '../constants/colors';
-import { getDailyPlayer, getRandomPlayer, searchPlayers, getHint } from '../services/api';
+import { getDailyPlayer, getRandomPlayer, searchPlayers, getHint, getPlayerById } from '../services/api';
 import {
   getPPStats,
   updatePPStatsAfterGame,
@@ -215,11 +215,10 @@ const PicturePerfectScreen: React.FC<PicturePerfectScreenProps> = ({
     setWon(false);
     setCurrentBlur(0); // Fully reveal
 
-    // Need to fetch the player name
+    // Fetch the actual player name
     try {
-      // We'll use a workaround: search for a unique attribute and find the player
-      // For now, just set a placeholder - in a real app, add a getPlayerById endpoint
-      setMysteryPlayerName('Mystery Player');
+      const player = await getPlayerById(mysteryPlayerId);
+      setMysteryPlayerName(player.display_name);
 
       // Update stats
       await updatePPStatsAfterGame(false, 0, MAX_GUESSES);
@@ -238,6 +237,7 @@ const PicturePerfectScreen: React.FC<PicturePerfectScreenProps> = ({
       }, 500);
     } catch (error) {
       console.error('Error handling loss:', error);
+      setMysteryPlayerName('Unknown Player');
     }
   };
 
