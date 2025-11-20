@@ -17,7 +17,7 @@ import {
   savePPDailyGameComplete,
   PicturePerfectStats,
 } from '../utils/storage';
-import PlayerSearch from '../components/PlayerSearch';
+import { PlayerSearch } from '../components/PlayerSearch';
 import BlurredPlayerImage from '../components/BlurredPlayerImage';
 import HintButton from '../components/HintButton';
 import HintDisplay, { Hint } from '../components/HintDisplay';
