@@ -13,6 +13,7 @@ export default function RootLayout() {
       >
         <Stack.Screen name="index" />
         <Stack.Screen name="game" />
+        <Stack.Screen name="pictureperfect" />
         <Stack.Screen name="stats" />
         <Stack.Screen name="howtoplay" />
       </Stack>

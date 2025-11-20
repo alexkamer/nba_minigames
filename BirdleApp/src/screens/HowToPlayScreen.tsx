@@ -94,6 +94,41 @@ export const HowToPlayScreen: React.FC<HowToPlayScreenProps> = ({
             • <Text style={styles.bold}>Unlimited Birdle:</Text> Unlimited games
             with random players
           </Text>
+
+          <View style={styles.divider} />
+
+          <Text style={styles.gameTitle}>🖼️ Picture Perfect</Text>
+          <Text style={styles.paragraph}>
+            A visual-based guessing game where you identify NBA players from blurred photos!
+          </Text>
+
+          <Text style={styles.sectionTitle}>How Picture Perfect Works</Text>
+          <Text style={styles.paragraph}>
+            • A blurred photo of an NBA player is shown{'\n'}
+            • You have 6 guesses to identify the player{'\n'}
+            • Each wrong guess slightly reduces the blur{'\n'}
+            • Use hint buttons to reveal clues (Team, Position, Conference, Jersey #){'\n'}
+            • Using hints also reduces the blur slightly{'\n'}
+            • Points are awarded based on how quickly you guess correctly
+          </Text>
+
+          <Text style={styles.sectionTitle}>Scoring System</Text>
+          <Text style={styles.paragraph}>
+            Points are based on which guess you get correct:{'\n\n'}
+            • <Text style={styles.bold}>1st guess:</Text> 200 points{'\n'}
+            • <Text style={styles.bold}>2nd guess:</Text> 100 points{'\n'}
+            • <Text style={styles.bold}>3rd guess:</Text> 50 points{'\n'}
+            • <Text style={styles.bold}>4th guess:</Text> 25 points{'\n'}
+            • <Text style={styles.bold}>5th guess:</Text> 10 points{'\n'}
+            • <Text style={styles.bold}>6th guess:</Text> 0 points{'\n\n'}
+            Challenge yourself to guess with as few hints and guesses as possible!
+          </Text>
+
+          <Text style={styles.sectionTitle}>Picture Perfect Modes</Text>
+          <Text style={styles.paragraph}>
+            • <Text style={styles.bold}>Daily Picture Perfect:</Text> One challenge per day, same for everyone{'\n'}
+            • <Text style={styles.bold}>Unlimited Picture Perfect:</Text> Play as many times as you want with random players
+          </Text>
         </View>
       </ScrollView>
     </View>
@@ -169,5 +204,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: Colors.textSecondary,
     lineHeight: 20,
+  },
+  divider: {
+    height: 2,
+    backgroundColor: Colors.border,
+    marginVertical: 32,
+  },
+  gameTitle: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: Colors.text,
+    marginBottom: 12,
+    textAlign: 'center',
   },
 });

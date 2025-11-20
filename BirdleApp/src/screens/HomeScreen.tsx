@@ -6,7 +6,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { Colors } from '../constants/colors';
-import { hasPlayedToday } from '../utils/storage';
+import { hasPlayedToday, hasPPPlayedToday } from '../utils/storage';
 
 interface HomeScreenProps {
   navigation: any;
@@ -14,6 +14,7 @@ interface HomeScreenProps {
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [dailyCompleted, setDailyCompleted] = useState(false);
+  const [ppDailyCompleted, setPpDailyCompleted] = useState(false);
 
   useEffect(() => {
     checkDailyStatus();
@@ -22,6 +23,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const checkDailyStatus = async () => {
     const completed = await hasPlayedToday();
     setDailyCompleted(completed);
+
+    const ppCompleted = await hasPPPlayedToday();
+    setPpDailyCompleted(ppCompleted);
   };
 
   return (
@@ -56,6 +60,36 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             <Text style={styles.buttonText}>Unlimited Birdle</Text>
             <Text style={styles.buttonSubtext}>Unlimited games</Text>
           </TouchableOpacity>
+
+          <View style={styles.divider} />
+          <Text style={styles.sectionTitle}>Picture Perfect</Text>
+
+          <TouchableOpacity
+            style={[
+              styles.button,
+              styles.ppPrimaryButton,
+              ppDailyCompleted && styles.buttonDisabled,
+            ]}
+            onPress={() => navigation.push('/pictureperfect?isDaily=true')}
+            disabled={ppDailyCompleted}
+          >
+            <Text style={styles.buttonText}>
+              {ppDailyCompleted ? 'Daily Completed ✓' : 'Daily Picture Perfect'}
+            </Text>
+            {!ppDailyCompleted && (
+              <Text style={styles.buttonSubtext}>Guess from a blurred photo</Text>
+            )}
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.button, styles.ppSecondaryButton]}
+            onPress={() => navigation.push('/pictureperfect?isDaily=false')}
+          >
+            <Text style={styles.buttonText}>Unlimited Picture Perfect</Text>
+            <Text style={styles.buttonSubtext}>Unlimited games</Text>
+          </TouchableOpacity>
+
+          <View style={styles.divider} />
 
           <TouchableOpacity
             style={[styles.button, styles.outlineButton]}
@@ -142,5 +176,23 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
     fontSize: 14,
     marginTop: 4,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: Colors.border,
+    marginVertical: 16,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: Colors.text,
+    marginBottom: 12,
+    textAlign: 'center',
+  },
+  ppPrimaryButton: {
+    backgroundColor: '#9B59B6', // Purple for Picture Perfect
+  },
+  ppSecondaryButton: {
+    backgroundColor: '#8E44AD', // Darker purple
   },
 });
