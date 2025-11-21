@@ -54,6 +54,32 @@ export default function UnlimitedTab() {
             </View>
           </TouchableOpacity>
 
+          <TouchableOpacity
+            style={[styles.button, styles.crossOverButton]}
+            onPress={() => router.push('/crossover?isDaily=false')}
+          >
+            <View style={styles.buttonContent}>
+              <View style={styles.buttonTextContainer}>
+                <Text style={styles.buttonText}>Unlimited Cross-Over</Text>
+                <Text style={styles.buttonSubtext}>Find groups of 4 NBA players</Text>
+              </View>
+              <Text style={styles.buttonEmoji}>🔀</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.button, styles.hoopHeadsButton]}
+            onPress={() => router.push('/hoopheads?isDaily=false')}
+          >
+            <View style={styles.buttonContent}>
+              <View style={styles.buttonTextContainer}>
+                <Text style={styles.buttonText}>Unlimited Hoop Heads</Text>
+                <Text style={styles.buttonSubtext}>Guess 3 players from combined image</Text>
+              </View>
+              <Text style={styles.buttonEmoji}>🎭</Text>
+            </View>
+          </TouchableOpacity>
+
           <View style={styles.divider} />
 
           <TouchableOpacity
@@ -149,5 +175,14 @@ const styles = StyleSheet.create({
   },
   ppSecondaryButton: {
     backgroundColor: '#8E44AD',
+  },
+  crossOverButton: {
+    backgroundColor: '#D35400',
+  },
+  hoopHeadsButton: {
+    backgroundColor: '#138D75',
+  },
+  buttonEmoji: {
+    fontSize: 40,
   },
 });

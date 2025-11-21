@@ -1,12 +1,16 @@
 """FastAPI backend for Birdle NBA guessing game."""
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import Response
 from datetime import date
 from typing import Optional
+import requests
 
 from . import database
 from . import game_logic
 from . import models
+from . import face_blend
+from . import face_swap
 
 app = FastAPI(title="Birdle API", version="1.0.0")
 
@@ -194,6 +198,40 @@ def get_picture_perfect_hint(hint_request: models.HintRequest):
         hint_value=hint_value,
         hint_display=hint_display
     )
+
+
+@app.get("/api/hoop-heads/composite-image")
+def get_composite_image(player_id1: str, player_id2: str, player_id3: str, method: str = "swap"):
+    """
+    Generate a composite image from three players using feature swapping.
+
+    Args:
+        player_id1: First player ID (base face, hair, face shape)
+        player_id2: Second player ID (eyes, eyebrows)
+        player_id3: Third player ID (nose, mouth, chin)
+        method: "swap" for feature swapping (default), "blend" for simple blending
+
+    Returns:
+        PNG image as bytes
+    """
+    try:
+        # Create the composite image using feature swapping
+        if method == "blend":
+            image_bytes = face_blend.create_composite_image_bytes(
+                player_id1, player_id2, player_id3, use_advanced=True
+            )
+        else:
+            image_bytes = face_swap.create_frankenstein_face_bytes(
+                player_id1, player_id2, player_id3
+            )
+
+        # Return as PNG response
+        return Response(content=image_bytes, media_type="image/png")
+
+    except requests.exceptions.RequestException as e:
+        raise HTTPException(status_code=500, detail=f"Error downloading player images: {str(e)}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error creating composite image: {str(e)}")
 
 
 if __name__ == "__main__":

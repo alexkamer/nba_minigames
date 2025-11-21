@@ -83,6 +83,46 @@ export default function DailyTab() {
             </View>
           </TouchableOpacity>
 
+          <TouchableOpacity
+            style={[
+              styles.button,
+              styles.crossOverButton,
+            ]}
+            onPress={() => router.push('/crossover?isDaily=true')}
+          >
+            <View style={styles.buttonContent}>
+              <View style={styles.buttonTextContainer}>
+                <Text style={styles.buttonText}>
+                  Daily Cross-Over
+                </Text>
+                <Text style={styles.buttonSubtext}>
+                  Find groups of 4 NBA players
+                </Text>
+              </View>
+              <Text style={styles.buttonEmoji}>🔀</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[
+              styles.button,
+              styles.hoopHeadsButton,
+            ]}
+            onPress={() => router.push('/hoopheads?isDaily=true')}
+          >
+            <View style={styles.buttonContent}>
+              <View style={styles.buttonTextContainer}>
+                <Text style={styles.buttonText}>
+                  Daily Hoop Heads
+                </Text>
+                <Text style={styles.buttonSubtext}>
+                  Guess 3 players from combined image
+                </Text>
+              </View>
+              <Text style={styles.buttonEmoji}>🎭</Text>
+            </View>
+          </TouchableOpacity>
+
           <View style={styles.divider} />
 
           <TouchableOpacity
@@ -181,5 +221,14 @@ const styles = StyleSheet.create({
   },
   ppPrimaryButton: {
     backgroundColor: '#9B59B6',
+  },
+  crossOverButton: {
+    backgroundColor: '#E67E22',
+  },
+  hoopHeadsButton: {
+    backgroundColor: '#16A085',
+  },
+  buttonEmoji: {
+    fontSize: 40,
   },
 });
